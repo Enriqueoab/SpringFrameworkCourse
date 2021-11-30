@@ -11,6 +11,10 @@ public class Owner {
     private Long id;
     @OneToMany
     private Set<Car> cars;
+
+    @OneToMany(mappedBy = "owner")
+    private Set<CarId> carsId;
+
 //Set the rest of variables and methods
     public Owner() {
     }

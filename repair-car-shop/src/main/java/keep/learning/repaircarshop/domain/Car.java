@@ -7,29 +7,33 @@ import java.util.Set;
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
     private String brand;
     private String plate;
     private int miles;
     private String problemToFix;
     private Date registerDate;
-    @ManyToOne
-    private Owner owner;
-    @ManyToMany(mappedBy = "cars")
-    private Set<Worker> workers;
+
+    //CascadeType.ALL propagates all operations from a parent to a child entity.
+    @OneToOne(mappedBy = "car", cascade = CascadeType.ALL)
+    //Set the parameter which is going to be set with the other entity
+    // id value(Shared primary key)
+    @PrimaryKeyJoinColumn
+    private CarId carId;
 
     public Car() {
     }
 
 
-    public Car(Long id, String brand, String plate, int miles, String problemToFix, Date registerDate, Owner owner) {
+    public Car(Long id, String brand, String plate, int miles, String problemToFix, Date registerDate, CarId carId) {
         this.id = id;
         this.brand = brand;
         this.plate = plate;
         this.miles = miles;
         this.problemToFix = problemToFix;
         this.registerDate = registerDate;
-        this.owner = owner;
+        this.carId = carId;
     }
 
     public Long getId() {
@@ -80,13 +84,6 @@ public class Car {
         this.registerDate = registerDate;
     }
 
-    public Owner getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Owner owner) {
-        this.owner = owner;
-    }
 
     @Override
     public boolean equals(Object o) {

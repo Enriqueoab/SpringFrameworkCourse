@@ -10,7 +10,8 @@ public class Worker {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToMany(mappedBy = "workers")
-    private Set<Car> cars;
+    @ManyToMany(mappedBy = "worker")
+    private Set<CarId> carsId;
+
 //Set the rest of the variables and methods
 }
