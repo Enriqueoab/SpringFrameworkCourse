@@ -10,8 +10,13 @@ public class Worker {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToMany(mappedBy = "worker")
+    @ManyToMany
     private Set<CarId> carsId;
 
-//Set the rest of the variables and methods
+    //CascadeType.ALL propagates all operations from a parent to a child entity.
+    @OneToOne(mappedBy = "worker", cascade = CascadeType.ALL)
+    //Set the parameter which is going to be set with the other entity
+    // id value(Shared primary key)
+    @PrimaryKeyJoinColumn
+    private PersonDetails personDetails;
 }
