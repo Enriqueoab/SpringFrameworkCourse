@@ -1,10 +1,10 @@
-package keep.learning.repaircarshop.domain;
+package keep.learning.repaircarshop.model;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class Owner {
+public class Owner extends PersonDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

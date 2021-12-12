@@ -1,7 +1,6 @@
-package keep.learning.repaircarshop.domain;
+package keep.learning.repaircarshop.model;
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 public class Car {
@@ -11,6 +10,7 @@ public class Car {
     private Long id;
     private String brand;
     private String plate;
+    private int year;
     private int miles;
     private String problemToFix;
     private Date registerDate;
@@ -26,10 +26,11 @@ public class Car {
     }
 
 
-    public Car(Long id, String brand, String plate, int miles, String problemToFix, Date registerDate, CarId carId) {
+    public Car(Long id, String brand, String plate, int year, int miles, String problemToFix, Date registerDate, CarId carId) {
         this.id = id;
         this.brand = brand;
         this.plate = plate;
+        this.year = year;
         this.miles = miles;
         this.problemToFix = problemToFix;
         this.registerDate = registerDate;
@@ -84,6 +85,13 @@ public class Car {
         this.registerDate = registerDate;
     }
 
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -108,7 +116,10 @@ public class Car {
                 ", plate='" + plate + '\'' +
                 ", miles=" + miles +
                 ", problemToFix='" + problemToFix + '\'' +
-                ", registerDate=" + registerDate +
+                ", registerDate=" + registerDate + '\'' +
+                ", year=" + year +
                 '}';
     }
+
+
 }

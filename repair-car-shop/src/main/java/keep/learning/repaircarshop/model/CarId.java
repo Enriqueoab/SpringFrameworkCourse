@@ -1,4 +1,4 @@
-package keep.learning.repaircarshop.domain;
+package keep.learning.repaircarshop.model;
 
 import javax.persistence.*;
 import java.util.Set;

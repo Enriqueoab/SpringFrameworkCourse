@@ -1,11 +1,11 @@
-package keep.learning.repaircarshop.domain;
+package keep.learning.repaircarshop.model;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
 @Entity
-public class Worker {
+public class Worker extends PersonDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
