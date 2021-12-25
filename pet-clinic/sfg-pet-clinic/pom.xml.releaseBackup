@@ -12,6 +12,14 @@
         <module>pet-clinic-web</module>
     </modules>
 
+<<<<<<< HEAD
+=======
+    <scm>
+        <developerConnection>scm:git:[https://github.com/Enriqueoab/SpringFrameworkCourse/tree/main/pet-clinic/sfg-pet-clinic]</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+>>>>>>> 657d4c14502a8b178cdf6ec7ad5e50d6a68506a7
     <packaging>pom</packaging>
 
     <name>sfg-pet-clinic</name>
@@ -55,9 +63,13 @@
                 </plugin>
         </plugins>
     </build>
+<<<<<<< HEAD
     <scm>
         <developerConnection>scm:git:[https://github.com/Enriqueoab/SpringFrameworkCourse/tree/main/pet-clinic/sfg-pet-clinic</developerConnection>
         <tag>HEAD</tag>
     </scm>
+=======
+
+>>>>>>> 657d4c14502a8b178cdf6ec7ad5e50d6a68506a7
 
 </project>
