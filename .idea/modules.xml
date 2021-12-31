@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/SpringFrameworkCourse.iml" filepath="$PROJECT_DIR$/.idea/SpringFrameworkCourse.iml" />
-      <module fileurl="file://$PROJECT_DIR$/step0/step0.iml" filepath="$PROJECT_DIR$/step0/step0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/StoicismQuotes.iml" filepath="$PROJECT_DIR$/StoicismQuotes.iml" />
     </modules>
   </component>
 </project>

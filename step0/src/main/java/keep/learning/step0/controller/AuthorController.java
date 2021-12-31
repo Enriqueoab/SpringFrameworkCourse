@@ -15,9 +15,9 @@ public class AuthorController {
     }
 
     @RequestMapping("/authors")
-    public String getAuthor(Model model){
+    public String getAuthor(Model model) {
 
-        model.addAttribute("authors",authorRepository.findAll());//"authors" is a variable to call it in out template
+        model.addAttribute("authors", authorRepository.findAll());//"authors" is a variable to call it in out template
 
         return "authors/list";
     }

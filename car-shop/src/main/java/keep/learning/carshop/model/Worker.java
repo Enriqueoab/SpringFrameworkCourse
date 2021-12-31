@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-public class Worker extends PersonDetails{
+public class Worker extends PersonDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

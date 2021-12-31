@@ -12,9 +12,9 @@ public class BookController {
 
     @RequestMapping("/books") //Create the relation between the "/books" request and the method
 
-    public String getBooks(Model model){ //"model" is what is going to get returned to the view
+    public String getBooks(Model model) { //"model" is what is going to get returned to the view
 
-       model.addAttribute("books", bookRepository.findAll()); //We enhance the model with a list of books
+        model.addAttribute("books", bookRepository.findAll()); //We enhance the model with a list of books
 
         return "books/list"; //Path to our template
     }

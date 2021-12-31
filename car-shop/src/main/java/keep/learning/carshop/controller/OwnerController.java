@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class OwnerController  {
+public class OwnerController {
 
     private OwnerRepository ownerRepository;
 
@@ -15,7 +15,7 @@ public class OwnerController  {
     }
 
     @RequestMapping("/owners")
-    public String getOwners(Model model){
+    public String getOwners(Model model) {
 
         model.addAttribute("owners", ownerRepository.findAll());
 

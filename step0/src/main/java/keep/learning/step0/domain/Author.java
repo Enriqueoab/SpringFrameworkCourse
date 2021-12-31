@@ -1,7 +1,6 @@
 package keep.learning.step0.domain;
 
 
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -9,8 +8,8 @@ import java.util.Set;
 public class Author {
 
     @Id //As entity it has to have a value identified as id
-    @GeneratedValue (strategy = GenerationType.AUTO) //We have to say to hibernate how it is generated
-                                                    // (This property is going to be managed by the database)
+    @GeneratedValue(strategy = GenerationType.AUTO) //We have to say to hibernate how it is generated
+    // (This property is going to be managed by the database)
     private Long id;
     private String firstName;
     private String lastName;
@@ -58,6 +57,7 @@ public class Author {
     public void setBooks(Set<Book> books) {
         this.books = books;
     }
+
     //VIP overrides to effectively identify the id with the proper database record
     @Override
     public boolean equals(Object o) {

@@ -13,7 +13,7 @@ public class BootStrapData implements CommandLineRunner {
 
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
-    private  final PublisherRepository publisherRepository;
+    private final PublisherRepository publisherRepository;
 
     //Through dependency injection into the constructor is going to bring both repositories instances
     // into the Spring context

@@ -6,7 +6,7 @@ import java.util.Set;
 @Entity
 public class Book {
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
     private String isbn;
@@ -17,7 +17,7 @@ public class Book {
     @ManyToMany
     //In this case we are going to create the relation with a table between the entities.
     @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
-                inverseJoinColumns = @JoinColumn(name = "author_id"))
+            inverseJoinColumns = @JoinColumn(name = "author_id"))
     private Set<Author> authors;
 
     public Book() {

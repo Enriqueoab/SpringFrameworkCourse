@@ -15,7 +15,7 @@ public class CarController {
     }
 
     @RequestMapping("/cars")
-    public String getCar(Model model){
+    public String getCar(Model model) {
 
         model.addAttribute("cars", carRepository.findAll());
 
