@@ -1,7 +1,6 @@
 package keep.learning.stoicismquotes.services;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
@@ -18,6 +17,8 @@ public class StoicQuotesServiceImpl implements StoicQuotesService {
 
     private HttpURLConnection conn;
     private  URL url;
+    private String apiData;
+
     //Fix it? - The function checkApiCallResponseCode
     //is not able to get its value
     @Value("${api-url}")
@@ -28,32 +29,24 @@ public class StoicQuotesServiceImpl implements StoicQuotesService {
     }
 
     @Override
-    public String findById(Long id) {
-
-        //Get a specific quote find by its ID
+    public String getApiData() {
 
         if (checkApiCallResponseCode()){
             try {
-
                 //Getting the response code
                 int responseCode = conn.getResponseCode();
-
                 if (responseCode != 200) {
-
-                    throw new RuntimeException("findById, HttpResponseCode: " + responseCode);
-
+                    throw new RuntimeException("findById error, HttpResponseCode: " + responseCode);
                 } else {
 
-                    String inline = "";
                     Scanner scanner = new Scanner(url.openStream());
 
                     //Write all the JSON data into a string using a scanner
                     while (scanner.hasNext()) {
-                        inline += scanner.nextLine();
+                        apiData += scanner.nextLine();
 
                     }
-                    System.out.println("Data from JSON (findById): "+inline);
-
+                    System.out.println("Data from JSON (findById): "+ apiData);
                     //Close the scanner
                     scanner.close();
 
@@ -69,10 +62,11 @@ public class StoicQuotesServiceImpl implements StoicQuotesService {
     }
 
     @Override
-    public boolean checkId(int quoteId) {
+    public boolean convertDataToArray(String apiData) {
 
-        //Check if the id of the quote that we are looking for
-        //exist en the API
+        //Create logic to be able of get each quote in an index (regular exp)
+        //of an array, create a function called getRandomQuote(Array quotesArray)
+        //to choose and send tha data quote to the front end
 
         return true;
     }

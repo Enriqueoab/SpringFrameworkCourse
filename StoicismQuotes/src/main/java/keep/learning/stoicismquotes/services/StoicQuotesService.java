@@ -2,7 +2,7 @@ package keep.learning.stoicismquotes.services;
 
 public interface StoicQuotesService {
 
-    String findById(Long id);
-    boolean checkId(int quoteId);
+    String getApiData();
+    boolean convertDataToArray(String apiData);
     boolean checkApiCallResponseCode();
 }
