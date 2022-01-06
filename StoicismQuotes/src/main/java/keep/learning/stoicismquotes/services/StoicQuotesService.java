@@ -1,7 +1,9 @@
 package keep.learning.stoicismquotes.services;
 
+import java.util.Map;
+
 public interface StoicQuotesService {
 
-    String getQuote();
+    Map<String, String> getQuote();
     String getQuotesById(int quoteId);
 }
