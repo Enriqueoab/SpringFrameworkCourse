@@ -1,51 +1,58 @@
 package keep.learning.stoicismquotes.services;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @EnableConfigurationProperties
 @PropertySource("classpath:application.properties")
 @Service
-public class StoicQuotesServiceImpl implements StoicQuotesService {
+public class StoicQuotesServiceImpl implements StoicQuotesService, Serializable {
 
     private HttpURLConnection conn;
     private  URL url;
     private Map<String, String> apiDataMap;
+
+    private String quoteInfo;
 
     //Fix it? - The function checkApiCallResponseCode
     //is not able to get its value
     @Value("${api-url}")
     private String apiEndpoint;
 
-    public String getApiEndpoint() {
-        return apiEndpoint;
-    }
-
-
     @Override
-    public String getQuote() {
+    public Map<String, String> getQuote() {
 
-        String quoteInfo = getQuotesById(3); //TODO: Fix the hard code value
-        String rexId = "id";
-        String rexAuthor = "author";
-        String rexQuote = "quote";
+        apiDataMap= null;
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        Pattern pattern = Pattern.compile(rexId);
-        Matcher matcher = pattern.matcher(quoteInfo);
-        boolean matchFound = matcher.find();
-        System.out.println(matchFound);
+        quoteInfo = getQuotesById(7).substring(3); // VIP: We have to get rid of [] and keep {}, is the structure that the converter need TODO: Avoid the hard code value
 
-        return "quotes/see_quote"; //TODO: Set this package and template in resources/template
+
+        try {
+
+            apiDataMap = objectMapper.readValue(quoteInfo, Map.class);
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Map id is: " + String.valueOf(apiDataMap.get("id")));
+        System.out.println("Map author is: " + apiDataMap.get("author"));
+        System.out.println("Map quote is: " + apiDataMap.get("quote"));
+
+        return apiDataMap; //TODO: Set this package and template in resources/template
 
     }
 
@@ -57,6 +64,7 @@ public class StoicQuotesServiceImpl implements StoicQuotesService {
 
         if (checkConnection()){
             try {
+                url = new URL("https://stoic-quotes-app.herokuapp.com/quotes?id=" + quoteId);
                 //Getting the response code
                 int responseCode = conn.getResponseCode();
                 if (responseCode != 200) {
@@ -68,9 +76,7 @@ public class StoicQuotesServiceImpl implements StoicQuotesService {
                     //Write all the JSON data into a string using a scanner
                     while (scanner.hasNext()) {
                         apiData += scanner.nextLine();
-
                     }
-                    System.out.println("Data from API (getQuotesById): "+ apiData);
                     //Close the scanner
                     scanner.close();
 
