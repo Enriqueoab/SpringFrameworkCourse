@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @EnableConfigurationProperties
 @PropertySource("classpath:application.properties")
@@ -17,7 +20,7 @@ public class StoicQuotesServiceImpl implements StoicQuotesService {
 
     private HttpURLConnection conn;
     private  URL url;
-    private String apiData;
+    private Map<String, String> apiDataMap;
 
     //Fix it? - The function checkApiCallResponseCode
     //is not able to get its value
@@ -28,15 +31,36 @@ public class StoicQuotesServiceImpl implements StoicQuotesService {
         return apiEndpoint;
     }
 
-    @Override
-    public String getApiData() {
 
-        if (checkApiCallResponseCode()){
+    @Override
+    public String getQuote() {
+
+        String quoteInfo = getQuotesById(3); //TODO: Fix the hard code value
+        String rexId = "id";
+        String rexAuthor = "author";
+        String rexQuote = "quote";
+
+        Pattern pattern = Pattern.compile(rexId);
+        Matcher matcher = pattern.matcher(quoteInfo);
+        boolean matchFound = matcher.find();
+        System.out.println(matchFound);
+
+        return "quotes/see_quote"; //TODO: Set this package and template in resources/template
+
+    }
+
+
+    @Override
+    public String getQuotesById(int quoteId) {
+
+        String apiData = "";
+
+        if (checkConnection()){
             try {
                 //Getting the response code
                 int responseCode = conn.getResponseCode();
                 if (responseCode != 200) {
-                    throw new RuntimeException("findById error, HttpResponseCode: " + responseCode);
+                    throw new RuntimeException("getQuotesById error, HttpResponseCode: " + responseCode);
                 } else {
 
                     Scanner scanner = new Scanner(url.openStream());
@@ -46,7 +70,7 @@ public class StoicQuotesServiceImpl implements StoicQuotesService {
                         apiData += scanner.nextLine();
 
                     }
-                    System.out.println("Data from JSON (findById): "+ apiData);
+                    System.out.println("Data from API (getQuotesById): "+ apiData);
                     //Close the scanner
                     scanner.close();
 
@@ -56,32 +80,19 @@ public class StoicQuotesServiceImpl implements StoicQuotesService {
                 e.printStackTrace();
             }
 
-
         }
-        return null;
+        return apiData;
     }
 
-    @Override
-    public boolean convertDataToArray(String apiData) {
-
-        //Create logic to be able of get each quote in an index (regular exp)
-        //of an array, create a function called getRandomQuote(Array quotesArray)
-        //to choose and send tha data quote to the front end
-
-        return true;
-    }
-
-    @Override
-    public boolean checkApiCallResponseCode() {
+    public boolean checkConnection(){
 
         int responseCode = 0;
         boolean confirmation = false;
         try {
-                            //Fix it should take it from the class variable
-                            //apiEndpoint
+            //Fix it should take it from the class variable
+            //apiEndpoint
             url = new URL("https://stoic-quotes-app.herokuapp.com/quotes");
             conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
             conn.connect();
             responseCode = conn.getResponseCode();
 
@@ -97,5 +108,7 @@ public class StoicQuotesServiceImpl implements StoicQuotesService {
         }
 
         return confirmation;
+
     }
+
 }

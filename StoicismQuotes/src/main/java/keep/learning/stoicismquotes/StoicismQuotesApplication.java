@@ -10,7 +10,7 @@ public class StoicismQuotesApplication {
     public static void main(String[] args) {
         SpringApplication.run(StoicismQuotesApplication.class, args);
         StoicQuotesServiceImpl s = new StoicQuotesServiceImpl();
-        s.findById(1L);
+        s.getQuote();
     }
 
 }
