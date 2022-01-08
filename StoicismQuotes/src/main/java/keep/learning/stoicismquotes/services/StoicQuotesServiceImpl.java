@@ -9,6 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -24,6 +25,15 @@ public class StoicQuotesServiceImpl implements StoicQuotesService, Serializable 
     private  URL url;
     private Map<String, String> apiDataMap;
 
+    public int getQuoteId() {
+        return quoteId;
+    }
+
+    public void setQuoteId(int quoteId) {
+        this.quoteId = quoteId;
+    }
+
+    private int quoteId = 0;
     private String quoteInfo;
 
     //Fix it? - The function checkApiCallResponseCode
@@ -36,9 +46,9 @@ public class StoicQuotesServiceImpl implements StoicQuotesService, Serializable 
 
         apiDataMap= null;
         ObjectMapper objectMapper = new ObjectMapper();
+        quoteId++;
 
-        quoteInfo = getQuotesById(7).substring(3); // VIP: We have to get rid of [] and keep {}, is the structure that the converter need TODO: Avoid the hard code value
-
+            quoteInfo = getQuotesById(getQuoteId()).substring(3); // VIP: We have to get rid of [] and keep {}, is the structure that the converter need
 
         try {
 
@@ -51,8 +61,8 @@ public class StoicQuotesServiceImpl implements StoicQuotesService, Serializable 
         System.out.println("Map id is: " + String.valueOf(apiDataMap.get("id")));
         System.out.println("Map author is: " + apiDataMap.get("author"));
         System.out.println("Map quote is: " + apiDataMap.get("quote"));
-
-        return apiDataMap; //TODO: Set this package and template in resources/template
+        setQuoteId(getQuoteId());
+        return apiDataMap;
 
     }
 
@@ -63,21 +73,26 @@ public class StoicQuotesServiceImpl implements StoicQuotesService, Serializable 
         String apiData = "";
 
         if (checkConnection()){
-            try {
+            try {//https://stoic-quotes-app.herokuapp.com/quotes
+                //url = new URL(apiEndpoint+ "?id=" + quoteId); TODO: Should be like this fix it
                 url = new URL("https://stoic-quotes-app.herokuapp.com/quotes?id=" + quoteId);
+
                 //Getting the response code
                 int responseCode = conn.getResponseCode();
+
                 if (responseCode != 200) {
                     throw new RuntimeException("getQuotesById error, HttpResponseCode: " + responseCode);
                 } else {
+                    InputStream is = url.openStream();
 
-                    Scanner scanner = new Scanner(url.openStream());
+                    Scanner scanner = new Scanner(is);
 
                     //Write all the JSON data into a string using a scanner
                     while (scanner.hasNext()) {
-                        apiData += scanner.nextLine();
+
+                            apiData += scanner.nextLine();
                     }
-                    //Close the scanner
+
                     scanner.close();
 
                 }
