@@ -35,3 +35,38 @@ public class MyApplicationCongig {
 }
 
 ```
+
+The next annotation [@Primary], is needed when we have more than one bean of the same type. When we have differents languages but we are using different beans of the same type. This annotation can be use in a class or in a method and, as we saw before, we can have this implementation in a configuration class the annotation would be the same in a class:
+
+```ruby
+    
+package keep.learning.dependencyinjection.config;
+
+@Configuration
+public class MyApplicationCongig {
+
+    //As we can not have the same name for a method in java we have to override the name of the method
+    // and give to the bean a specific name @Bean("primaryService")
+    @Profile("ES")
+    @Bean("primaryService")
+    PrimarySpanishService primarySpanishService() {
+
+        return new PrimarySpanishService();
+    }
+
+    @Profile({"EN","default"})
+    @Bean
+    PrimaryEnglishService primaryService() {
+
+        return new PrimaryEnglishService();
+    }
+
+    @Primary
+    @Bean
+    PrimaryBaseService primaryBaseService() {
+
+        return new PrimaryBaseService();
+    }
+}
+
+```
