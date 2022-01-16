@@ -36,7 +36,7 @@ public class MyApplicationCongig {
 
 ```
 
-The next annotation ['@Primary'], is needed when we have more than one bean of the same type. When we have differents languages but we are using different beans of the same type. This annotation can be use in a class or in a method and, as we saw before, we can have this implementation in a configuration class the annotation would be the same in a class:
+The next annotation [`@Primary`], is needed when we have more than one bean of the same type. When we have differents languages but we are using different beans of the same type. This annotation can be use in a class or in a method and, as we saw before, we can have this implementation in a configuration class the annotation would be the same in a class:
 
 ```ruby
     
@@ -163,3 +163,42 @@ public class ShapeFactory {
 }
 
 ```
+
+### XML configuration
+
+To generate the file we can select resources right click > new > XML configuration File > Spring configuration and we can set a name for it and is going to generate the file with a basic schema. For this example we are gong to generate some beans in charge of create an object (constructor).
+
+```ruby
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+           <bean name="nameOfTheConstrctor" class="example.app.configuration.service.NameOfTheConstrctor"></bean>
+
+
+</beans>
+
+
+```
+
+Now what we have to do is, in the class where the constructor should be or in the main app class, tell Spring to look at the XML configuration file, we can do that usig the tag below:
+
+```sh
+@ImportResource("classpath:XMLfileName.xml")
+
+```
+
+### Spring bean scopes
+
+As a example of beans scope configuration we are going to create prototype and singleton because they are the more used by far in spring application. To create our prototype scopes beans we have to use in the proper class the annotations below:
+
+```sh
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYE)
+@Component
+
+```
+
+The singleton bean scope is set by default but we have to use the tag @Component to create the bean. It is worthwhile mention that the prototype scopes beans makes use of more memory so we should use them an the last tool.
+
