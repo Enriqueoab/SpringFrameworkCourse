@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +17,20 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Scanner;
 
-@EnableConfigurationProperties
-@PropertySource("classpath:application.properties")
+@Configuration
 @Service
 public class StoicQuotesServiceImpl implements StoicQuotesService, Serializable {
 
     private HttpURLConnection conn;
     private  URL url;
     private Map<String, String> apiDataMap;
+    private int quoteId = 0;
+    private String quoteInfo;
+    private String apiEndpoint;
+
+    public StoicQuotesServiceImpl(@Value("${api.url}")String apiEndpoint) {
+        this.apiEndpoint = apiEndpoint;
+    }
 
     public int getQuoteId() {
         return quoteId;
@@ -32,14 +39,6 @@ public class StoicQuotesServiceImpl implements StoicQuotesService, Serializable 
     public void setQuoteId(int quoteId) {
         this.quoteId = quoteId;
     }
-
-    private int quoteId = 0;
-    private String quoteInfo;
-
-    //Fix it? - The function checkApiCallResponseCode
-    //is not able to get its value
-    @Value("${api-url}")
-    private String apiEndpoint;
 
     @Override
     public Map<String, String> getQuote() {
@@ -73,9 +72,8 @@ public class StoicQuotesServiceImpl implements StoicQuotesService, Serializable 
         String apiData = "";
 
         if (checkConnection()){
-            try {//https://stoic-quotes-app.herokuapp.com/quotes
-                //url = new URL(apiEndpoint+ "?id=" + quoteId); TODO: Should be like this fix it
-                url = new URL("https://stoic-quotes-app.herokuapp.com/quotes?id=" + quoteId);
+            try {
+                url = new URL(apiEndpoint+ "?id=" + quoteId);
 
                 //Getting the response code
                 int responseCode = conn.getResponseCode();
